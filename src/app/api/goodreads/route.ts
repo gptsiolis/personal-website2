@@ -7,92 +7,49 @@ interface Book {
   goodreadsUrl: string;
 }
 
-const GOODREADS_URL =
-  "https://www.goodreads.com/review/list/64556587?shelf=currently-reading";
+const RSS_URL =
+  "https://www.goodreads.com/review/list_rss/64556587?shelf=currently-reading";
 
 export async function GET() {
   try {
-    const response = await fetch(GOODREADS_URL, {
+    const response = await fetch(RSS_URL, {
       headers: {
         "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
       },
       cache: "no-store",
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch Goodreads page: ${response.status}`);
+      throw new Error(`Failed to fetch Goodreads RSS: ${response.status}`);
     }
 
-    const html = await response.text();
-    const $ = cheerio.load(html);
+    const xml = await response.text();
+    const $ = cheerio.load(xml, { xmlMode: true });
 
-    // Goodreads uses rows with id like review_########
-    const row = $("tr[id^='review_']").first();
-    if (!row?.length) {
+    const firstItem = $("item").first();
+    if (!firstItem.length) {
       return NextResponse.json(
         { error: "No currently reading books found" },
-        { status: 404 },
+        { status: 404 }
       );
     }
 
-    const titleLink = row.find("a.bookTitle").first();
-
-    const metaDescription =
-      $("meta[name='description']").attr("content") ||
-      $("meta[property='og:description']").attr("content") ||
-      "";
-    const metaMatch = metaDescription.match(/shelf:\s*(.+?)\s+by\s+/i);
-    const metaTitle = metaMatch?.[1]?.trim() || "";
-
-    const attributeTitle = titleLink.attr("title")?.trim() || "";
-    const linkText = titleLink
-      .clone()
-      .children()
-      .remove()
-      .end()
-      .text()
-      .replace(/\s+/g, " ")
-      .trim();
-
-    const cellTitle = row
-      .find("td.field.title .value")
-      .clone()
-      .children()
-      .remove()
-      .end()
-      .text()
-      .replace(/\s+/g, " ")
-      .trim();
-
-    const titleCandidates = [
-      metaTitle,
-      attributeTitle,
-      linkText,
-      cellTitle,
-    ].filter(Boolean);
-
-    const title = titleCandidates[0] || "Currently Reading";
-
-    const goodreadsUrl = titleLink.attr("href")
-      ? `https://www.goodreads.com${titleLink.attr("href")}`
-      : GOODREADS_URL;
-
-    let coverImg =
-      row.find("td.field.cover img").attr("src") ||
-      row.find("img").first().attr("src") ||
+    const title = firstItem.find("title").text().trim();
+    const goodreadsUrl = firstItem.find("link").text().trim();
+    let coverUrl = firstItem.find("book_large_image_url").text().trim() ||
+      firstItem.find("book_medium_image_url").text().trim() ||
+      firstItem.find("book_image_url").text().trim() ||
       "";
 
-    if (coverImg.startsWith("//")) {
-      coverImg = `https:${coverImg}`;
+    if (coverUrl.startsWith("//")) {
+      coverUrl = `https:${coverUrl}`;
     }
-
-    coverImg = coverImg.replace(/_SY\d+_/i, "_SY475_");
 
     const book: Book = {
       title: title || "Currently Reading",
-      coverUrl: coverImg || "",
-      goodreadsUrl,
+      coverUrl,
+      goodreadsUrl: goodreadsUrl || RSS_URL,
     };
 
     console.log("Goodreads book parsed:", book);
@@ -100,15 +57,9 @@ export async function GET() {
     return NextResponse.json({ book });
   } catch (error) {
     console.error("Error fetching Goodreads data:", error);
-    return NextResponse.json({
-      book: {
-        title: "The Divine Comedy",
-        coverUrl: "",
-        goodreadsUrl:
-          "https://www.goodreads.com/book/show/6656.The_Divine_Comedy",
-      },
-    });
+    return NextResponse.json(
+      { error: "Failed to fetch Goodreads data" },
+      { status: 500 }
+    );
   }
 }
-
-
