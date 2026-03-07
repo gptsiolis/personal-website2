@@ -18,13 +18,37 @@ interface Book {
   goodreadsUrl: string;
 }
 
+interface Essay {
+  title: string;
+  url: string;
+  subtitle: string;
+}
+
 export default function Home() {
   const [film, setFilm] = useState<Film | null>(null);
   const [filmLoading, setFilmLoading] = useState(true);
-  const [filmImageError, setFilmImageError] = useState(false);
   const [book, setBook] = useState<Book | null>(null);
   const [bookLoading, setBookLoading] = useState(true);
-  const [bookImageError, setBookImageError] = useState(false);
+  const [essay, setEssay] = useState<Essay | null>(null);
+  const [essayLoading, setEssayLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchEssay() {
+      try {
+        const response = await fetch("/api/substack", { cache: "no-store" });
+        const data = await response.json();
+        if (data.essay) {
+          setEssay(data.essay);
+        }
+      } catch (error) {
+        console.error("Error fetching essay:", error);
+      } finally {
+        setEssayLoading(false);
+      }
+    }
+
+    fetchEssay();
+  }, []);
 
   useEffect(() => {
     async function fetchFilm() {
@@ -41,7 +65,6 @@ export default function Home() {
         
         if (data.film) {
           console.log("Setting film:", data.film);
-          setFilmImageError(false);
           setFilm(data.film);
         } else {
           console.log("No film data in response");
@@ -66,7 +89,6 @@ export default function Home() {
             title: data.book.title,
             coverUrl: data.book.coverUrl,
           });
-          setBookImageError(false);
           setBook(data.book);
         }
       } catch (error) {
@@ -231,105 +253,75 @@ export default function Home() {
           </motion.div>
         </div>
 
-        {/* Media grid */}
-        <div className="mt-12 grid gap-12 lg:grid-cols-2">
-          {/* Film section */}
-          <div className="flex flex-col items-center gap-6 md:gap-8">
-            {film ? (
-              <>
-                <a
-                  href={film.letterboxdUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group relative w-[220px] h-[320px] md:w-[260px] md:h-[380px] lg:w-[280px] lg:h-[420px] overflow-hidden transition-transform duration-300 hover:scale-105 bg-foreground/5"
-                >
-                  {film.posterUrl && !filmImageError ? (
-                    <Image
-                      src={film.posterUrl}
-                      alt={`${film.title} (${film.year}) poster`}
-                      key={film.posterUrl}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 1024px) 260px, 280px"
-                      unoptimized
-                      onError={() => setFilmImageError(true)}
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-black">
-                      <span className="text-xs font-semibold uppercase tracking-wider">No Image</span>
-                    </div>
-                  )}
-                </a>
+        {/* Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-6"
+        >
+          {/* Essay button */}
+          {essay ? (
+            <a
+              href={essay.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group w-full sm:w-auto border-2 border-black px-8 py-4 text-center transition-all duration-200 hover:bg-black hover:text-white"
+            >
+              <p className="text-[10px] font-semibold uppercase tracking-[0.3em] mb-1 group-hover:text-white/70">
+                Most Recent Essay
+              </p>
+              <p className="text-sm font-bold tracking-wide">{essay.title}</p>
+            </a>
+          ) : essayLoading ? (
+            <div className="w-full sm:w-64 border-2 border-black/20 px-8 py-4 animate-pulse">
+              <div className="w-24 h-3 bg-foreground/10 mx-auto mb-2" />
+              <div className="w-40 h-4 bg-foreground/10 mx-auto" />
+            </div>
+          ) : null}
 
-                <div className="text-center space-y-2">
-                  <p className="text-xs md:text-sm text-black font-semibold tracking-[0.3em] uppercase">
-                    Last first-time watch that I really enjoyed
-                  </p>
-                  <h2 className="text-xl md:text-2xl lg:text-3xl font-bold tracking-[0.02em] text-black">
-                    {film.title}
-                    {film.year && <span className="text-black"> ({film.year})</span>}
-                  </h2>
-                </div>
-              </>
-            ) : filmLoading ? (
-              <>
-                <div className="w-[220px] h-[320px] md:w-[260px] md:h-[380px] lg:w-[280px] lg:h-[420px] bg-foreground/5 animate-pulse" />
-                <div className="text-center space-y-2">
-                  <div className="w-52 h-4 bg-foreground/10 animate-pulse mx-auto" />
-                  <div className="w-40 h-6 bg-foreground/10 animate-pulse mx-auto" />
-                </div>
-              </>
-            ) : null}
-          </div>
+          {/* Film button */}
+          {film ? (
+            <a
+              href={film.letterboxdUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group w-full sm:w-auto border-2 border-black px-8 py-4 text-center transition-all duration-200 hover:bg-black hover:text-white"
+            >
+              <p className="text-[10px] font-semibold uppercase tracking-[0.3em] mb-1 group-hover:text-white/70">
+                Last Film I Loved
+              </p>
+              <p className="text-sm font-bold tracking-wide">
+                {film.title}{film.year && ` (${film.year})`}
+              </p>
+            </a>
+          ) : filmLoading ? (
+            <div className="w-full sm:w-64 border-2 border-black/20 px-8 py-4 animate-pulse">
+              <div className="w-24 h-3 bg-foreground/10 mx-auto mb-2" />
+              <div className="w-40 h-4 bg-foreground/10 mx-auto" />
+            </div>
+          ) : null}
 
-          {/* Currently reading section */}
-          <div className="flex flex-col items-center gap-6 md:gap-8">
-            {book ? (
-              <>
-                <a
-                  href={book.goodreadsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-                  className="group relative w-[220px] h-[320px] md:w-[260px] md:h-[380px] lg:w-[280px] lg:h-[420px] overflow-hidden transition-transform duration-300 hover:scale-105 bg-foreground/5"
-                >
-                  {book.coverUrl && !bookImageError ? (
-                    <Image
-                      src={book.coverUrl}
-                      alt={`${book.title} cover`}
-                      key={book.coverUrl}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 1024px) 260px, 280px"
-                      unoptimized
-                      onError={() => setBookImageError(true)}
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-black">
-                      <span className="text-xs font-semibold uppercase tracking-wider">No Image</span>
-                    </div>
-                  )}
-                </a>
-
-                <div className="text-center space-y-3">
-                  <p className="text-xs md:text-sm text-black font-semibold tracking-[0.3em] uppercase">
-                    Currently Reading
-                  </p>
-                  <h2 className="text-xl md:text-2xl lg:text-3xl font-bold tracking-[0.02em] text-black">
-                    {book.title}
-                  </h2>
-                </div>
-              </>
-            ) : bookLoading ? (
-              <>
-                <div className="w-[220px] h-[320px] md:w-[240px] md:h-[360px] lg:w-[260px] lg:h-[390px] bg-foreground/5 animate-pulse" />
-                <div className="text-center space-y-2">
-                  <div className="w-48 h-4 bg-foreground/10 animate-pulse mx-auto" />
-                  <div className="w-36 h-6 bg-foreground/10 animate-pulse mx-auto" />
-                </div>
-              </>
-            ) : null}
-          </div>
-        </div>
+          {/* Book button */}
+          {book ? (
+            <a
+              href={book.goodreadsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group w-full sm:w-auto border-2 border-black px-8 py-4 text-center transition-all duration-200 hover:bg-black hover:text-white"
+            >
+              <p className="text-[10px] font-semibold uppercase tracking-[0.3em] mb-1 group-hover:text-white/70">
+                Currently Reading
+              </p>
+              <p className="text-sm font-bold tracking-wide">{book.title}</p>
+            </a>
+          ) : bookLoading ? (
+            <div className="w-full sm:w-64 border-2 border-black/20 px-8 py-4 animate-pulse">
+              <div className="w-24 h-3 bg-foreground/10 mx-auto mb-2" />
+              <div className="w-40 h-4 bg-foreground/10 mx-auto" />
+            </div>
+          ) : null}
+        </motion.div>
       </main>
     </div>
   );
