@@ -151,7 +151,7 @@ export default function Home() {
         </motion.div>
 
         {/* Photo and text section */}
-        <div className="flex flex-col gap-8 lg:flex-row lg:gap-12 xl:gap-16 mb-24 md:mb-32 lg:mb-40">
+        <div className="flex flex-col gap-8 lg:flex-row lg:gap-12 xl:gap-16 mb-12 md:mb-16 lg:mb-20">
           {/* Photo section - left */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
