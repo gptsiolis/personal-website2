@@ -133,6 +133,14 @@ export default function Home() {
             >
               <span className="text-sm md:text-base">Writing</span>
             </a>
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-transform duration-200 hover:translate-y-[-1px]"
+            >
+              <span className="text-sm md:text-base">Resume</span>
+            </a>
           </nav>
         </div>
       </header>
