@@ -289,7 +289,7 @@ export default function Home() {
               className="group w-full sm:w-auto border-2 border-black px-8 py-4 text-center transition-all duration-200 hover:bg-black hover:text-white"
             >
               <p className="text-[10px] font-semibold uppercase tracking-[0.3em] mb-1 group-hover:text-white/70">
-                Last Film I Loved
+                Last New Film I Liked
               </p>
               <p className="text-sm font-bold tracking-wide">
                 {film.title}{film.year && ` (${film.year})`}

@@ -32,7 +32,7 @@ export async function GET() {
       const item = $(items[i]);
 
       const rating = parseFloat(item.find("letterboxd\\:memberRating").text()) || 0;
-      if (rating < 4.5) continue;
+      if (rating < 4.0) continue;
 
       const isRewatch = item.find("letterboxd\\:rewatch").text().trim().toLowerCase() === "yes";
       if (isRewatch) continue;
