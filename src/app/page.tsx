@@ -71,7 +71,12 @@ export default function Home() {
       url: book?.goodreadsUrl ?? "",
     },
     { label: "On repeat", value: "", url: "" },
-    { label: "What I'm thinking about", value: "", url: "" },
+    {
+      label:
+        "The speech I gave my peers as the Valedictorian of the COVID Class (2020)",
+      value: "watch on YouTube",
+      url: "https://www.youtube.com/watch?v=1wdYv2L0hEA&t=5691s",
+    },
   ];
 
   return (
