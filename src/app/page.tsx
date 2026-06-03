@@ -4,12 +4,12 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 export default function Home() {
-  const bullets: { label: string; value: string }[] = [
-    { label: "My most recent essay", value: "" },
-    { label: "Last movie I watched and loved", value: "" },
-    { label: "Currently reading", value: "" },
-    { label: "On repeat", value: "" },
-    { label: "What I'm thinking about", value: "" },
+  const bullets: { label: string; value: string; url?: string }[] = [
+    { label: "My most recent essay", value: "", url: "" },
+    { label: "Last movie I watched and loved", value: "", url: "" },
+    { label: "Currently reading", value: "", url: "" },
+    { label: "On repeat", value: "", url: "" },
+    { label: "What I'm thinking about", value: "", url: "" },
   ];
 
   return (
@@ -184,7 +184,18 @@ export default function Home() {
               <span aria-hidden="true">-</span>
               <span>
                 <span className="font-semibold">{b.label}:</span>{" "}
-                <span>{b.value}</span>
+                {b.url ? (
+                  <a
+                    href={b.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline decoration-black underline-offset-4 hover:decoration-2"
+                  >
+                    {b.value}
+                  </a>
+                ) : (
+                  <span>{b.value}</span>
+                )}
               </span>
             </li>
           ))}
