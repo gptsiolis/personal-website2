@@ -83,6 +83,11 @@ export default function Home() {
       value: "watch on YouTube",
       url: "https://www.youtube.com/watch?v=pctrJKUyEfI&t=1034s",
     },
+    {
+      label: "A fun essay I wrote on how I would run 23andMe today",
+      value: "23andDAO: Proposing the Buyout of 23andMe",
+      url: "https://x.com/gptsiolis/status/1912521435479962101",
+    },
   ];
 
   return (
