@@ -184,7 +184,7 @@ export default function Home() {
             transition={{ duration: 1, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-1 flex-col justify-between gap-6 py-2 h-full"
           >
-            <div className="space-y-4 pr-2 text-sm leading-[1.55] md:text-base md:leading-[1.65]">
+            <div className="space-y-4 pr-2 text-base md:text-lg leading-relaxed">
               <motion.p
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
