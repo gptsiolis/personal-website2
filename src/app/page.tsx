@@ -93,7 +93,7 @@ export default function Home() {
       url: "https://www.youtube.com/watch?v=pctrJKUyEfI&t=1034s",
     },
     {
-      label: "Testimony to talent from Raoul Pal",
+      label: "Praise from Raoul Pal",
       value: "read on X",
       url: "https://x.com/RaoulGMI/status/1497016443178684435",
     },
@@ -106,7 +106,7 @@ export default function Home() {
           <div className="text-lg font-bold text-black">
             George Panos Tsiolis
           </div>
-          <nav className="flex items-center gap-8 text-black font-bold tracking-wide">
+          <nav className="flex items-center gap-8 text-black tracking-wide">
             <a
               href="https://twitter.com/gptsiolis"
               target="_blank"
