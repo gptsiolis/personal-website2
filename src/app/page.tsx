@@ -66,6 +66,11 @@ export default function Home() {
         "https://gptsiolis.substack.com/p/netflix-is-about-to-get-blockbustered",
     },
     {
+      label: "A fun essay I wrote on how I would run 23andMe today",
+      value: "23andDAO: Proposing the Buyout of 23andMe",
+      url: "https://x.com/gptsiolis/status/1912521435479962101",
+    },
+    {
       label: "Last movie I watched and loved",
       value: film ? `${film.title}${film.year ? ` (${film.year})` : ""}` : "",
       url: film?.letterboxdUrl ?? "",
@@ -86,11 +91,6 @@ export default function Home() {
         "My friends voting me out first in our mock Survivor game (because I was the biggest threat — or so I like to tell myself)",
       value: "watch on YouTube",
       url: "https://www.youtube.com/watch?v=pctrJKUyEfI&t=1034s",
-    },
-    {
-      label: "A fun essay I wrote on how I would run 23andMe today",
-      value: "23andDAO: Proposing the Buyout of 23andMe",
-      url: "https://x.com/gptsiolis/status/1912521435479962101",
     },
   ];
 
