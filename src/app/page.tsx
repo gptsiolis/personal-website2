@@ -106,7 +106,7 @@ export default function Home() {
           <div className="text-lg font-bold text-black">
             George Panos Tsiolis
           </div>
-          <nav className="flex items-center gap-8 text-black tracking-wide">
+          <nav className="flex items-center gap-8 text-black font-bold tracking-wide">
             <a
               href="https://twitter.com/gptsiolis"
               target="_blank"
@@ -276,12 +276,12 @@ export default function Home() {
                     href={b.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="underline decoration-black underline-offset-4 hover:decoration-2"
+                    className="font-normal underline decoration-black underline-offset-4 hover:decoration-2"
                   >
                     {b.value}
                   </a>
                 ) : (
-                  <span>{b.value}</span>
+                  <span className="font-normal">{b.value}</span>
                 )}
               </span>
             </li>
