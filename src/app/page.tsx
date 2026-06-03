@@ -70,7 +70,6 @@ export default function Home() {
       value: book?.title ?? "",
       url: book?.goodreadsUrl ?? "",
     },
-    { label: "On repeat", value: "", url: "" },
     {
       label:
         "The speech I gave my peers as the Valedictorian of the COVID Class (2020)",
