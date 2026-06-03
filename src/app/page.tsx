@@ -52,6 +52,11 @@ export default function Home() {
 
   const bullets: { label: string; value: string; url?: string }[] = [
     {
+      label: "Where I currently work",
+      value: "Fountain",
+      url: "https://fountaindigital.xyz/",
+    },
+    {
       label: "My most recent essay",
       value:
         essay?.title ??
