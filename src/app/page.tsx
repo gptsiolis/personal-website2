@@ -92,6 +92,11 @@ export default function Home() {
       value: "watch on YouTube",
       url: "https://www.youtube.com/watch?v=pctrJKUyEfI&t=1034s",
     },
+    {
+      label: "Testimony to talent from Raoul Pal",
+      value: "read on X",
+      url: "https://x.com/RaoulGMI/status/1497016443178684435",
+    },
   ];
 
   return (
