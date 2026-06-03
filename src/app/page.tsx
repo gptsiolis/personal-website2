@@ -2,12 +2,74 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+
+interface Film {
+  title: string;
+  year: string;
+  rating: number;
+  posterUrl: string;
+  letterboxdUrl: string;
+}
+
+interface Book {
+  title: string;
+  coverUrl: string;
+  goodreadsUrl: string;
+}
+
+interface Essay {
+  title: string;
+  url: string;
+  subtitle: string;
+}
 
 export default function Home() {
+  const [essay, setEssay] = useState<Essay | null>(null);
+  const [film, setFilm] = useState<Film | null>(null);
+  const [book, setBook] = useState<Book | null>(null);
+
+  useEffect(() => {
+    fetch("/api/substack", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((d) => d.essay && setEssay(d.essay))
+      .catch((e) => console.error("Error fetching essay:", e));
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/letterboxd", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((d) => d.film && setFilm(d.film))
+      .catch((e) => console.error("Error fetching film:", e));
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/goodreads", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((d) => d.book && setBook(d.book))
+      .catch((e) => console.error("Error fetching book:", e));
+  }, []);
+
   const bullets: { label: string; value: string; url?: string }[] = [
-    { label: "My most recent essay", value: "", url: "" },
-    { label: "Last movie I watched and loved", value: "", url: "" },
-    { label: "Currently reading", value: "", url: "" },
+    {
+      label: "My most recent essay",
+      value:
+        essay?.title ??
+        "Netflix is about to get Blockbustered, and What the Streaming Service of the AI Era Will Look Like",
+      url:
+        essay?.url ??
+        "https://gptsiolis.substack.com/p/netflix-is-about-to-get-blockbustered",
+    },
+    {
+      label: "Last movie I watched and loved",
+      value: film ? `${film.title}${film.year ? ` (${film.year})` : ""}` : "",
+      url: film?.letterboxdUrl ?? "",
+    },
+    {
+      label: "Currently reading",
+      value: book?.title ?? "",
+      url: book?.goodreadsUrl ?? "",
+    },
     { label: "On repeat", value: "", url: "" },
     { label: "What I'm thinking about", value: "", url: "" },
   ];
