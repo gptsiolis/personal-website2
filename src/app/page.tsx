@@ -71,7 +71,7 @@ export default function Home() {
       url: "https://x.com/gptsiolis/status/1912521435479962101",
     },
     {
-      label: "Last movie I watched and loved",
+      label: "Last new movie I watched and loved",
       value: film ? `${film.title}${film.year ? ` (${film.year})` : ""}` : "",
       url: film?.letterboxdUrl ?? "",
     },
