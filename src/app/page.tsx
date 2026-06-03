@@ -77,6 +77,12 @@ export default function Home() {
       value: "watch on YouTube",
       url: "https://www.youtube.com/watch?v=1wdYv2L0hEA&t=5691s",
     },
+    {
+      label:
+        "My friends voting me out first in our mock Survivor game (because I was the biggest threat — or so I like to tell myself)",
+      value: "watch on YouTube",
+      url: "https://www.youtube.com/watch?v=pctrJKUyEfI&t=1034s",
+    },
   ];
 
   return (
