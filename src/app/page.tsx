@@ -177,12 +177,15 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
-          className="mx-auto max-w-3xl list-disc pl-6 space-y-3 text-base md:text-lg text-black leading-relaxed"
+          className="max-w-3xl list-none pl-0 space-y-3 text-base md:text-lg text-black leading-relaxed"
         >
           {bullets.map((b, i) => (
-            <li key={i} className="marker:text-black">
-              <span className="font-semibold">{b.label}:</span>{" "}
-              <span>{b.value}</span>
+            <li key={i} className="flex gap-2">
+              <span aria-hidden="true">-</span>
+              <span>
+                <span className="font-semibold">{b.label}:</span>{" "}
+                <span>{b.value}</span>
+              </span>
             </li>
           ))}
         </motion.ul>
