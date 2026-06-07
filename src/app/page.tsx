@@ -53,7 +53,7 @@ export default function Home() {
   const bullets: { label: string; value: string; url?: string }[] = [
     {
       label: "Where I currently work",
-      value: "Fountain",
+      value: "Chief of Staff at Fountain",
       url: "https://fountaindigital.xyz/",
     },
     {
