@@ -247,7 +247,7 @@ export default function Home() {
                 This is part of who I am. I’ve also written a slightly longer blurb
                 about what I’ve done, which you can read{" "}
                 <a
-                  href="#"
+                  href="/about"
                   className="underline decoration-black underline-offset-4 hover:decoration-2"
                 >
                   here
