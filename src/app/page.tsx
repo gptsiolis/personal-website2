@@ -108,6 +108,12 @@ export default function Home() {
           </div>
           <nav className="flex items-center gap-8 text-black font-bold tracking-wide">
             <a
+              href="/about"
+              className="transition-transform duration-200 hover:translate-y-[-1px]"
+            >
+              <span className="text-sm md:text-base">About</span>
+            </a>
+            <a
               href="https://twitter.com/gptsiolis"
               target="_blank"
               rel="noopener noreferrer"

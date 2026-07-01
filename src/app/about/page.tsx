@@ -44,6 +44,15 @@ export default function About() {
           </a>
           <nav className="flex items-center gap-8 text-black font-bold tracking-wide">
             <a
+              href="/about"
+              aria-current="page"
+              className="transition-transform duration-200 hover:translate-y-[-1px]"
+            >
+              <span className="text-sm md:text-base underline decoration-black underline-offset-4">
+                About
+              </span>
+            </a>
+            <a
               href="https://twitter.com/gptsiolis"
               target="_blank"
               rel="noopener noreferrer"
@@ -85,13 +94,7 @@ export default function About() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
         >
-          <a
-            href="/"
-            className="text-sm font-semibold text-black/60 underline decoration-black/40 underline-offset-4 hover:text-black hover:decoration-black"
-          >
-            ← Back home
-          </a>
-          <h1 className="mt-6 mb-12 text-3xl font-bold tracking-[0.015em] text-black md:text-4xl lg:text-5xl">
+          <h1 className="mb-12 text-3xl font-bold tracking-[0.015em] text-black md:text-4xl lg:text-5xl">
             What I’ve done
           </h1>
         </motion.div>
